@@ -9,6 +9,9 @@ This has been made using a development version of [Oli, an open source PHP frame
 Download the right version of Oli on [its repository](https://github.com/OliFramework/Oli/) and extract Oli on your web server!  
 Then, [download the KeyGen 1.1.0 release](https://github.com/matiboux/UrlShortener/releases/tag/1.1.0), extract the files in the directory of your Oli website and configure it!
 
+For the configuration part, you can use the **config.json** and **database.sql** files to make things work.  
+But don't forget to check the provided values and change some of them (like shortened links in the sql file).
+
 ---
 
 [**But, hey.** *You should know that you could just use the official Url Shortener project on my website*](http://u.matiboux.com/)
