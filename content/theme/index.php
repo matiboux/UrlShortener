@@ -36,8 +36,8 @@ if(!empty($_)) {
 </head>
 <body>
 
-<div id="main" class="container h-100 d-flex flex-column justify-content-start align-items-center">
-	<h1 class="text-uppercase mt-3 mb-0"><b><?=$_Oli->getSetting('name')?></b></h1>
+<div id="main" class="container d-flex flex-column justify-content-start align-items-center">
+	<h1 class="text-uppercase"><b><?=$_Oli->getSetting('name')?></b></h1>
 	<div class="card d-block m-auto">
 		<?php /*<img class="card-img-top" src="" alt="Preview" />*/ ?>
 		<div class="card-header">

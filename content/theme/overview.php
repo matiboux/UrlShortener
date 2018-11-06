@@ -45,8 +45,8 @@ if($_Oli->getUrlParam(2) == 'delete' AND !empty($_Oli->getUrlParam(3))) {
 </head>
 <body>
 
-<div id="main" class="container h-100 d-flex flex-column justify-content-center align-items-center">
-	<h1 class="text-uppercase mt-3 mb-0">
+<div id="main" class="container d-flex flex-column justify-content-center align-items-center">
+	<h1 class="text-uppercase">
 		<?php if($_Oli->getUrlParam(1) != 'manager') { ?>
 			Overview
 		<?php } else { ?>
