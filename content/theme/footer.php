@@ -1,4 +1,8 @@
-<i class="fa fa-copyright fa-fw"></i> <?=$_Oli->getSetting('owner')?> – <?=(!empty($_Oli->getSetting('creation_date')) AND !empty($creationYear = date('Y', strtotime($_Oli->getSetting('creation_date'))))) ? ($creationYear < date('Y') ? $creationYear . '-' . date('Y') : ($creationYear > date('Y') ? date('Y') . '-' . $creationYear : $creationYear)) : date('Y')?> <br />
+<?php if(!empty($_Oli->getSetting('owner'))) { ?>
+	<i class="fa fa-copyright fa-fw"></i> <?=$_Oli->getSetting('owner')?> –
+	<?=(!empty($_Oli->getSetting('creation_date')) AND !empty($creationYear = date('Y', strtotime($_Oli->getSetting('creation_date'))))) ? ($creationYear < date('Y') ? $creationYear . '-' . date('Y') : ($creationYear > date('Y') ? date('Y') . '-' . $creationYear : $creationYear)) : date('Y')?>
+	<br />
+<?php } ?>
 
 <?php $isCreationDate = !empty($_Oli->getSetting('creation_date')); ?>
 <?php $isVersion = !empty($_Oli->getSetting('version')); ?>

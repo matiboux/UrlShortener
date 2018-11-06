@@ -38,7 +38,7 @@ if(!empty($_)) {
 
 <div id="main" class="container h-100 d-flex flex-column justify-content-start align-items-center">
 	<h1 class="text-uppercase mt-3 mb-0"><b><?=$_Oli->getSetting('name')?></b></h1>
-	<div class="card m-auto">
+	<div class="card d-block m-auto">
 		<?php /*<img class="card-img-top" src="" alt="Preview" />*/ ?>
 		<div class="card-header">
 			Create your own shortened link
@@ -55,7 +55,6 @@ if(!empty($_)) {
 			<?php } ?>
 			
 			<?php if(!empty($shortenedLink)) { ?>
-				<p>Your link is <b class="text-primary"><?=$shortenedLink?></b> – <a href="<?=$shortenedLink?>" class="btn btn-success btn-xs">Try it!</a></p>
 				<div class="alert alert-primary">
 					Your link is <b class="text-primary"><?=$shortenedLink?></b> – <a href="<?=$shortenedLink?>" class="btn btn-success btn-xs">Try it!</a>
 				</div>
