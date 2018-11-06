@@ -1,6 +1,6 @@
 <?php
-if($linkInfos = $_Oli->getLinesMySQL('urwebsit', array('link_key' => $_Oli->getUrlParam(1)))) {
-	if(!$linkInfos['banned']) header('Refresh: 2; Url=' . $linkInfos['link']);
+if($linkInfos = $_Oli->getLinesMySQL('urlshortener', array('link_key' => $_Oli->getUrlParam(1)))) {
+	if(!$linkInfos['banned']) header('Refresh: 3; Url=' . $linkInfos['link']);
 ?>
 
 <!DOCTYPE html>
@@ -13,25 +13,41 @@ if($linkInfos = $_Oli->getLinesMySQL('urwebsit', array('link_key' => $_Oli->getU
 </head>
 <body>
 
-<?php include THEMEPATH . 'header.php'; ?>
-
-<div id="main">
-	<div class="container" style="max-width: 750px">
-		
-		<?php if($linkInfos['banned']) { ?>
-			<h2>(Not) redirecting..</h2>
-			<h4 class="text-danger">The link <b class="text-danger"><?=$linkInfos['link']?></b> has been banned. Rip.</h4>
-		<?php } else { ?>
-			<h2>Redirecting...</h2>
-			<h4>You'll be redirected to <b class="text-primary"><?=$linkInfos['link']?></b> in a few seconds.</h4>
-		<?php } ?>
-		
-		<?php if($linkInfos['rating'] == 'mature') { ?>
-			<p class="text-warning">This shortened link have been tagged as redirecting to <b>mature</b> content.</p>
-		<?php } else if($linkInfos['rating'] == 'adult') { ?>
-			<p class="text-danger">This shortened link have been tagged as redirecting to <b>adult</b> content.</p>
-		<?php } ?>
-		
+<div id="main" class="container h-100 d-flex justify-content-center align-items-center">
+	<div class="card m-auto">
+		<?php /*<img class="card-img-top" src="" alt="Preview" />*/ ?>
+		<div class="card-header">
+			Redirecting to <span class="text-primary"><?=$linkInfos['link']?></span> ...
+		</div>
+		<div class="card-body">
+			<?php if(!$linkInfos['disabled']) { ?>
+				<h5 class="card-title">You will be redirected in a few seconds.</h5>
+				<p class="card-text">
+					This helps <span class="text-info">protect you</span> from visiting malicious websites. <br />
+					<b>If you do not trust the following link, please <span class="text-danger">quit this page</span></b>. <br />
+					You can also contact administrators to report suspicious links.
+				</p>
+			<?php } else { ?>
+				<h5 class="card-title">Sorry, redirection have been disabled for this link.</h5>
+				<p class="card-text">
+					You can still access it by clicking the button below. <br />
+					<b>Be sure you know what you are doing</b>.
+				</p>
+			<?php } ?>
+			
+			<?php if($linkInfos['rating'] == 'mature') { ?>
+				<p class="text-warning">This link has been tagged as <b>mature</b> content.</p>
+			<?php } else if($linkInfos['rating'] == 'adult') { ?>
+				<p class="text-warning">This link has been tagged as <b>adult</b> content.</p>
+			<?php } ?>
+			
+			<a href="<?=$linkInfos['link']?>" class="btn btn-primary"><i class="fas fa-globe fa-fw"></i> Redirect now!</a>
+			<a href="<?=$_Oli->getUrlParam(0) . 'report/' . $_Oli->getUrlParam(1) . '/'?>" class="btn btn-warning"><i class="fas fa-exclamation-triangle fa-fw"></i> Report</a>
+			<a href="<?=$_Oli->getUrlParam(0) . 'abort/' . $_Oli->getUrlParam(1) . '/'?>" class="btn btn-danger"><i class="fas fa-times fa-fw"></i> Abort</a>
+		</div>
+		<div class="card-footer text-muted">
+			<?php include THEMEPATH . 'footer.php'; ?>
+		</div>
 	</div>
 </div>
 
