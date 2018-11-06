@@ -1,6 +1,11 @@
 <?php
-if($_Oli->getUserRightLevel() < $_Oli->translateUserRight('USER')) header('Location: ' . $_Oli->getLoginUrl());
-else if($_Oli->getUrlParam(1) == 'manager' AND $_Oli->getUserRightLevel() < $_Oli->translateUserRight('ADMIN')) header('Location: ' . $_Oli->getUrlParam(0) . 'overview/');
+if($_Oli->getUserRightLevel() < $_Oli->translateUserRight('USER')) {
+	header('Location: ' . $_Oli->getLoginUrl());
+	exit;
+} else if($_Oli->getUrlParam(1) == 'manager' AND $_Oli->getUserRightLevel() < $_Oli->translateUserRight('ADMIN')) {
+	header('Location: ' . $_Oli->getUrlParam(0) . 'overview/');
+	exit;
+}
 
 if($_Oli->getUrlParam(2) == 'delete' AND !empty($_Oli->getUrlParam(3))) {
 	$paramData = urldecode($_Oli->getUrlParam(3));
