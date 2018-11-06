@@ -110,7 +110,7 @@ if(!empty($_)) {
 				<?php } else { ?>
 					<a href="<?=$_Oli->getShortcutLink('login')?>logout" class="btn btn-danger w-100"><i class="fa fa-sign-out-alt fa-fw"></i> Sign out</a>
 				<?php } ?>
-				<a href="<?=$_Oli->getUrlParam(0)?>manager" class="btn btn-<?php if(!$_Oli->verifyAuthKey()) { ?>default disabled<?php } else {?>primary<?php } ?> w-100"><i class="fa fa-user fa-fw"></i> Manager</a>
+				<a href="<?=$_Oli->getUrlParam(0)?>manager" class="btn btn-<?php if(!$_Oli->verifyAuthKey()) { ?>secondary disabled<?php } else {?>primary<?php } ?> w-100"><i class="fa fa-user fa-fw"></i> Manager</a>
 				<a href="<?=$_Oli->getShortcutLink('legal')?>" class="btn btn-light w-100">Legal</a>
 				<a href="<?=$_Oli->getUrlParam(0)?>about" class="btn btn-light w-100">About</a>
 			</div>
