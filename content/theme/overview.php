@@ -1,5 +1,5 @@
 <?php
-if($_Oli->getUserRightLevel() < $_Oli->translateUserRight('USER')) header('Location: ' . $_Oli->getShortcutLink('login'));
+if($_Oli->getUserRightLevel() < $_Oli->translateUserRight('USER')) header('Location: ' . $_Oli->getLoginUrl());
 else if($_Oli->getUrlParam(1) == 'manager' AND $_Oli->getUserRightLevel() < $_Oli->translateUserRight('ADMIN')) header('Location: ' . $_Oli->getUrlParam(0) . 'overview/');
 
 if($_Oli->getUrlParam(2) == 'delete' AND !empty($_Oli->getUrlParam(3))) {

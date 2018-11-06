@@ -106,9 +106,9 @@ if(!empty($_)) {
 			
 			<div class="btn-group d-flex">
 				<?php if(!$_Oli->verifyAuthKey()) { ?>
-					<a href="<?=$_Oli->getShortcutLink('login')?>" class="btn btn-primary w-100"><i class="fa fa-sign-in-alt fa-fw"></i> Sign in</a>
+					<a href="<?=$_Oli->getLoginUrl()?>" class="btn btn-primary w-100"><i class="fa fa-sign-in-alt fa-fw"></i> Sign in</a>
 				<?php } else { ?>
-					<a href="<?=$_Oli->getShortcutLink('login')?>logout" class="btn btn-danger w-100"><i class="fa fa-sign-out-alt fa-fw"></i> Sign out</a>
+					<a href="<?=$_Oli->getLoginUrl()?>logout" class="btn btn-danger w-100"><i class="fa fa-sign-out-alt fa-fw"></i> Sign out</a>
 				<?php } ?>
 				<a href="<?=$_Oli->getUrlParam(0)?>manager" class="btn btn-<?php if(!$_Oli->verifyAuthKey()) { ?>secondary disabled<?php } else {?>primary<?php } ?> w-100"><i class="fa fa-user fa-fw"></i> Manager</a>
 				<a href="<?=$_Oli->getShortcutLink('legal')?>" class="btn btn-light w-100">Legal</a>
