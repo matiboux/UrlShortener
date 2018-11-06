@@ -1,4 +1,4 @@
-# Url Shortener 1.1.0
+# Url Shortener 2.0
 
 **Url Shortener** is an *open source service* made to create shortened links - that's why I've called it Url Shortener.
 
