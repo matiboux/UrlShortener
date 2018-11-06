@@ -1,0 +1,10 @@
+# Oli Files
+/.olipath 
+/.oliurl
+/.olisc
+
+# Website Config Files
+/.oliauth
+/app.json
+/config.json
+/config.global.json
