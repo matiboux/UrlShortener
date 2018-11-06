@@ -1,26 +1,44 @@
 <?php
 if($_Oli->getUserRightLevel() < $_Oli->translateUserRight('USER')) header('Location: ' . $_Oli->getShortcutLink('login'));
 
-if($_Oli->getUrlParam(2) == 'change-sensitive' AND !empty($_Oli->getUrlParam(3))) {
-	if(!$_Oli->isExistInfosMySQL('url_shortener_list', array('id' => $_Oli->getUrlParam(3))))
-		$resultCode = 'UNKNOWN_LINK';
-	else if($_Oli->getInfosMySQL('url_shortener_list', 'owner', array('id' => $_Oli->getUrlParam(3))) == $_Oli->getAuthKeyOwner()) {
-		$newSensitiveLink = ($_Oli->getInfosMySQL('url_shortener_list', 'sensitive_link', array('id' => $_Oli->getUrlParam(3)))) ? false : true;
-		$updatedLinkKey = $_Oli->getUrlParam(3);
+// if($_Oli->getUrlParam(2) == 'change-sensitive' AND !empty($_Oli->getUrlParam(3))) {
+	// if(!$_Oli->isExistInfosMySQL('url_shortener_list', array('id' => $_Oli->getUrlParam(3))))
+		// $resultCode = 'UNKNOWN_LINK';
+	// else if($_Oli->getInfosMySQL('url_shortener_list', 'owner', array('id' => $_Oli->getUrlParam(3))) == $_Oli->getAuthKeyOwner()) {
+		// $newSensitiveLink = ($_Oli->getInfosMySQL('url_shortener_list', 'sensitive_link', array('id' => $_Oli->getUrlParam(3)))) ? false : true;
+		// $updatedLinkKey = $_Oli->getUrlParam(3);
 		
-		$_Oli->updateInfosMySQL('url_shortener_list', array('sensitive_link' => $newSensitiveLink), array('id' => $_Oli->getUrlParam(3)));
-		$resultCode = 'LINK_UPDATED';
+		// $_Oli->updateInfosMySQL('url_shortener_list', array('sensitive_link' => $newSensitiveLink), array('id' => $_Oli->getUrlParam(3)));
+		// $resultCode = 'LINK_UPDATED';
+	// }
+	// else
+		// $resultCode = 'NOT_YOUR_LINK';
+// }
+
+if($_Oli->getUrlParam(2) == 'edit' AND !empty($_Oli->getUrlParam(3))) {
+	if(!$linkInfos = $_Oli->getLinesMySQL('url_shortener_list', array('id' => $_Oli->getUrlParam(3)))) $errorStatus = 'D:You tried to edit a link that not exists';
+	else if($linkInfos['owner'] != $_Oli->getAuthKeyOwner()) $errorStatus = 'D:You tried to edit a link that not belongs to you';
+	else {
+		$editingLink = true;
+		if(!$_Oli->isEmptyPostVars()) {
+			$linkKey = $_Oli->getUserRightLevel() >= $_Oli->translateUserRight('VIP') ? $_Oli->getPostVars('linkKey') : $linkInfos['link_key'];
+			$rating = $_Oli->getPostVars('rating') ?: 'rating';
+				
+			if($_Oli->updateInfosMySQL('url_shortener_list', array('rating' => $rating, 'link_key' => $linkKey), array('id' => $linkInfos['id']))) {
+				$resultCode = 'S:Your link have been successfully updated';
+				$editingLink = false;
+			}
+			else $resultCode = 'D:An error occured while updating your link';
+		}
 	}
-	else
-		$resultCode = 'NOT_YOUR_LINK';
 }
 else if($_Oli->getUrlParam(2) == 'delete' AND !empty($_Oli->getUrlParam(3))) {
 	$paramData = urldecode($_Oli->getUrlParam(3));
 	$selectedLinks = !is_array($paramData) ? (is_array(json_decode($paramData, true)) ? json_decode($paramData, true) : [$paramData]) : $paramData;
 	
 	foreach($selectedLinks as $eachKey) {
-		if(!$linkInfos = $_Oli->getLinesMySQL('url_shortener_list', array('id' => $eachKey))) $errorStatus = 'D:You tried to deleted a shortened link which not exists';
-		else if($linkInfos['owner'] != $_Oli->getAuthKeyOwner()) $errorStatus = 'D:You tried to deleted a shortened link which not belongs to you';
+		if(!$linkInfos = $_Oli->getLinesMySQL('url_shortener_list', array('id' => $eachKey))) $errorStatus = 'D:You tried to delete a shortened link that not exists';
+		else if($linkInfos['owner'] != $_Oli->getAuthKeyOwner()) $errorStatus = 'D:You tried to delete a shortened link that not belongs to you';
 		
 		if(isset($errorStatus)) break;
 	}
@@ -80,9 +98,58 @@ else if($_Oli->getUrlParam(2) == 'delete' AND !empty($_Oli->getUrlParam(3))) {
 		<?php } ?>
 		<div id="message" style="display: none;"></div>
 		
-		<div class="content-box transparent text-center">
-			<h3>Here are all your links:</h3>
-		</div>
+		<?php if($editingLink AND $linkInfos) { ?>
+			<div class="content-box">
+				<form action="<?php echo $_Oli->getUrlParam(0); ?>form.php" class="form form-horizontal" method="post">
+					<h3>Link ID #<?php echo $linkInfos['id']; ?></h3>
+					<p>
+						It links to <span class="text-primary"><?php echo $linkInfos['link']; ?></span>
+					</p>
+					
+					<?php if($_Oli->getUserRightLevel() < $_Oli->translateUserRight('VIP')) { ?>
+						<p class="help-block">
+							<span class="text-danger">
+								<i class="fa fa-warning fa-fw"></i> You can't edit the shortened link key
+							</span>
+						</p>
+					<?php } else { ?>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Link key</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" name="linkKey" value="<?php echo $linkInfos['link_key']; ?>" />
+							</div>
+						</div>
+					<?php } ?>
+					
+					<div class="form-group">
+						<label class="col-md-2 control-label">Content ratings</label>
+						<div class="col-md-10">
+							<div class="radio">
+								<label><input type="radio" name="rating" value="general" <?php if($linkInfos['rating'] == 'general' OR !$linkInfos) { ?>checked<?php } ?> /> General content (<span class="text-success">#SFW</span>)</label> <br />
+							</div>
+							<div class="radio">
+								<label><input type="radio" name="rating" value="mature" <?php if($linkInfos['rating'] == 'mature') { ?>checked<?php } ?> /> Mature content (<span class="text-danger">mild violence or nudity</span>)</label> <br />
+							</div>
+							<div class="radio">
+								<label><input type="radio" name="rating" value="adult" <?php if($linkInfos['rating'] == 'adult') { ?>checked<?php } ?> /> Adult content (<span class="text-danger">sex or strong violence</span>)</label> <br />
+							</div>
+						</div>
+					</div> <hr />
+					
+					<div class="form-group">
+						<div class="col-md-offset-2 col-md-10">
+							<button type="submit" class="btn btn-primary"><i class="fa fa-cloud-upload fa-fw"></i> Update link</button>
+							<button type="reset" class="btn btn-default"><i class="fa fa-refresh fa-fw"></i> Reset</button>
+							<a href="<?php echo $_Oli->getUrlParam(0) . $_Oli->getUrlParam(1); ?>/" class="btn btn-danger"><i class="fa fa-times fa-fw"></i> Abort</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		<?php } else { ?>
+			<div class="content-box transparent text-center">
+				<h3>Here are all your links:</h3>
+			</div>
+		<?php } ?>
 		
 		<div class="content-box">
 			<?php $yourLinks = $_Oli->getLinesMySQL('url_shortener_list', array('owner' => $_Oli->getAuthKeyOwner()), true, true); ?>
@@ -92,7 +159,7 @@ else if($_Oli->getUrlParam(2) == 'delete' AND !empty($_Oli->getUrlParam(3))) {
 						<tr>
 							<th class="selector-menu"><i class="fa fa-check fa-fw"></i></th>
 							<th>Link</th>
-							<th>Key</th>
+							<th>Shortened</th>
 							<th>Rating</th>
 							<th>Created</th>
 							<?php if(isset($selectedLinks) AND $confirmationNeeded) { ?>
@@ -122,14 +189,14 @@ else if($_Oli->getUrlParam(2) == 'delete' AND !empty($_Oli->getUrlParam(3))) {
 								<?php } ?>
 								
 								<td><?php echo $eachLink['link']; ?></td>
-								<td><?php echo $eachLink['link_key']; ?></td>
+								<td><a href="<?php echo $_Oli->getUrlParam(0) . $eachLink['link_key']; ?>"><?php echo $eachLink['link_key']; ?></a></td>
 								<td>
 									<?php if($eachLink['rating'] == 'mature') { ?>
 										<span class="text-danger">General</span>
 									<?php } else if($eachLink['rating'] == 'adult') { ?>
 										<span class="text-danger">Adult</span>
 									<?php } else { ?>
-										<span class="text-primary">General</span>
+										<span class="text-success">General</span>
 									<?php } ?>
 								</td>
 								<td>
@@ -168,13 +235,13 @@ else if($_Oli->getUrlParam(2) == 'delete' AND !empty($_Oli->getUrlParam(3))) {
 									<?php } ?>
 								</td>
 								<td>
-									<a href="<?php echo $_Oli->getUrlParam(0) . $eachLink['link_key']; ?>" class="btn btn-success btn-xs">
-										Go <i class="fa fa-angle-double-right fa-fw"></i>
+									<a href="<?php echo $_Oli->getUrlParam(0) . $eachLink['link_key']; ?>" class="copyLink btn btn-info btn-xs">
+										Copy <i class="fa fa-clipboard fa-fw"></i>
 									</a>
 								</td>
 								<td>
-									<a href="<?php echo $_Oli->getUrlParam(0) . $eachLink['link_key']; ?>" class="copyLink btn btn-info btn-xs">
-										Copy <i class="fa fa-clipboard fa-fw"></i>
+									<a href="<?php echo $_Oli->getUrlParam(0) . $_Oli->getUrlParam(1); ?>/edit/<?php echo $eachLink['id']; ?>" class="btn btn-primary btn-xs">
+										Edit <i class="fa fa-pencil fa-fw"></i>
 									</a>
 								</td>
 								<td>

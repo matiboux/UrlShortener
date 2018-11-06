@@ -58,8 +58,8 @@ if(!$_Oli->isEmptyPostVars()) {
 				
 				<h2><i class="fa fa-gear fa-fw"></i> Preferences</h2>
 				<div class="form-group">
-					<label class="col-sm-2 control-label">Delay</label>
-					<div class="col-sm-10">
+					<label class="col-md-2 control-label">Delay</label>
+					<div class="col-md-10">
 						<div class="checkbox">
 							<label><input type="checkbox" name="delay" <?php if($urlshortnerSettings['delay'] OR !$urlshortnerSettings) { ?>checked<?php } ?> /> Wait for the 5 seconds delay before redirecting me</label>
 							<p class="help-block">
@@ -77,7 +77,7 @@ if(!$_Oli->isEmptyPostVars()) {
 					<label class="col-md-2 control-label hidden-xs hidden-sm">General</label>
 					<div class="col-md-10">
 						<div class="radio">
-							<label><input type="radio" name="rating" value="general" <?php if($urlshortnerSettings['rating'] == 'general' OR !$urlshortnerSettings) { ?>checked<?php } ?> /> General rated content</label> <br />
+							<label><input type="radio" name="rating" value="general" <?php if($urlshortnerSettings['rating'] == 'general' OR !$urlshortnerSettings) { ?>checked<?php } ?> /> General content</label> <br />
 						</div>
 						<p class="help-block">
 							<span class="text-success">Contains no violence and no nudity #SFW</span>
@@ -88,7 +88,7 @@ if(!$_Oli->isEmptyPostVars()) {
 					<label class="col-md-2 control-label hidden-xs hidden-sm">Mature</label>
 					<div class="col-md-10">
 						<div class="radio">
-							<label><input type="radio" name="rating" value="mature" <?php if($urlshortnerSettings['rating'] == 'mature') { ?>checked<?php } ?> /> Mature rated content</label> <br />
+							<label><input type="radio" name="rating" value="mature" <?php if($urlshortnerSettings['rating'] == 'mature') { ?>checked<?php } ?> /> Mature content</label> <br />
 						</div>
 						<p class="help-block">
 							<span class="text-danger">Contains mild violence or nudity</span> <br />
@@ -101,7 +101,7 @@ if(!$_Oli->isEmptyPostVars()) {
 					<label class="col-md-2 control-label hidden-xs hidden-sm">Adult</label>
 					<div class="col-md-10">
 						<div class="radio">
-							<label><input type="radio" name="rating" value="adult" <?php if($urlshortnerSettings['rating'] == 'adult') { ?>checked<?php } ?> /> Adult rated content</label> <br />
+							<label><input type="radio" name="rating" value="adult" <?php if($urlshortnerSettings['rating'] == 'adult') { ?>checked<?php } ?> /> Adult content</label> <br />
 						</div>
 						<p class="help-block">
 							<span class="text-danger">Contains sex or strong violence</span> <br />
