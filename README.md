@@ -20,8 +20,8 @@ You'll need to configure your own database and you can use the **database.sql** 
 
 ### License
 
-Copyright (c) 2016 Mathieu Guérin (Matiboux)  
-*You'll find a copy of the MIT license in the LICENSE file.*
+Copyright (c) 2016-2018 Mathieu Guérin  
+*You'll find a copy of the Mozilla Public License v2.0 in the LICENSE file.*
 
 ### About me
 
