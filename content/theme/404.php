@@ -1,6 +1,6 @@
 <?php
 if($linkInfos = $_Oli->getLinesMySQL('urlshortener', array('link_key' => $_Oli->getUrlParam(1)))) {
-	if(!$linkInfos['banned']) header('Refresh: 3; Url=' . $linkInfos['link']);
+	if(!$linkInfos['disabled']) header('Refresh: 3; Url=' . $linkInfos['link']);
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +14,7 @@ if($linkInfos = $_Oli->getLinesMySQL('urlshortener', array('link_key' => $_Oli->
 <body>
 
 <div id="main" class="container h-100 d-flex justify-content-center align-items-center">
-	<div class="card m-auto">
+	<div class="card d-block m-auto">
 		<?php /*<img class="card-img-top" src="" alt="Preview" />*/ ?>
 		<div class="card-header">
 			Redirecting to <span class="text-primary"><?=$linkInfos['link']?></span> ...
