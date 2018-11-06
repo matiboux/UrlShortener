@@ -1,5 +1,6 @@
 <?php
 if($linkInfos = $_Oli->getLinesMySQL('urlshortener', array('link_key' => $_Oli->getUrlParam(1)))) {
+	$_Oli->updateInfosMySQL('urlshortener', array('views' => $linkInfos['views'] + 1), array('link_key' => $_Oli->getUrlParam(1)));
 	if(!$linkInfos['disabled']) header('Refresh: 3; Url=' . $linkInfos['link']);
 ?>
 
