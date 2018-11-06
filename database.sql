@@ -38,14 +38,14 @@ CREATE TABLE `settings_urlshortener` (
 --
 
 INSERT INTO `settings_urlshortener` (`name`, `value`) VALUES
-('creation_date', '2016-02-29'),
-('description', 'A simple URL shortener service.'),
-('github', ''),
-('name', 'Url Shortener'),
-('owner', NULL),
-('status', ''),
 ('url', 'urwebs.it/'),
-('version', '2');
+('name', 'Url Shortener'),
+('description', 'A simple URL shortener service.'),
+('creation_date', '2016-02-29'),
+('owner', NULL),
+('version', '2.2'),
+('status', NULL),
+('github', NULL);
 
 -- --------------------------------------------------------
 

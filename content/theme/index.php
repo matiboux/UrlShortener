@@ -36,8 +36,8 @@ if(!empty($_)) {
 </head>
 <body>
 
-<div id="main" class="container h-100 d-flex flex-column justify-content-start align-items-center">
-	<h1 class="text-uppercase mt-3 mb-0"><b><?=$_Oli->getSetting('name')?></b></h1>
+<div id="main" class="container d-flex flex-column justify-content-start align-items-center">
+	<h1 class="text-uppercase"><b><?=$_Oli->getSetting('name')?></b></h1>
 	<div class="card d-block m-auto">
 		<?php /*<img class="card-img-top" src="" alt="Preview" />*/ ?>
 		<div class="card-header">
@@ -106,11 +106,11 @@ if(!empty($_)) {
 			
 			<div class="btn-group d-flex">
 				<?php if(!$_Oli->verifyAuthKey()) { ?>
-					<a href="<?=$_Oli->getShortcutLink('login')?>" class="btn btn-primary w-100"><i class="fa fa-sign-in-alt fa-fw"></i> Sign in</a>
+					<a href="<?=$_Oli->getLoginUrl()?>" class="btn btn-primary w-100"><i class="fa fa-sign-in-alt fa-fw"></i> Sign in</a>
 				<?php } else { ?>
-					<a href="<?=$_Oli->getShortcutLink('login')?>logout" class="btn btn-danger w-100"><i class="fa fa-sign-out-alt fa-fw"></i> Sign out</a>
+					<a href="<?=$_Oli->getLoginUrl()?>logout" class="btn btn-danger w-100"><i class="fa fa-sign-out-alt fa-fw"></i> Sign out</a>
 				<?php } ?>
-				<a href="<?=$_Oli->getUrlParam(0)?>manager" class="btn btn-<?php if(!$_Oli->verifyAuthKey()) { ?>default disabled<?php } else {?>primary<?php } ?> w-100"><i class="fa fa-user fa-fw"></i> Manager</a>
+				<a href="<?=$_Oli->getUrlParam(0)?>manager" class="btn btn-<?php if(!$_Oli->verifyAuthKey()) { ?>secondary disabled<?php } else {?>primary<?php } ?> w-100"><i class="fa fa-user fa-fw"></i> Manager</a>
 				<a href="<?=$_Oli->getShortcutLink('legal')?>" class="btn btn-light w-100">Legal</a>
 				<a href="<?=$_Oli->getUrlParam(0)?>about" class="btn btn-light w-100">About</a>
 			</div>

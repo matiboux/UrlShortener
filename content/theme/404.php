@@ -1,5 +1,6 @@
 <?php
 if($linkInfos = $_Oli->getLinesMySQL('urlshortener', array('link_key' => $_Oli->getUrlParam(1)))) {
+	$_Oli->updateInfosMySQL('urlshortener', array('views' => $linkInfos['views'] + 1), array('link_key' => $_Oli->getUrlParam(1)));
 	if(!$linkInfos['disabled']) header('Refresh: 3; Url=' . $linkInfos['link']);
 ?>
 
@@ -13,7 +14,7 @@ if($linkInfos = $_Oli->getLinesMySQL('urlshortener', array('link_key' => $_Oli->
 </head>
 <body>
 
-<div id="main" class="container h-100 d-flex justify-content-center align-items-center">
+<div id="main" class="container d-flex justify-content-center align-items-center">
 	<div class="card d-block m-auto">
 		<?php /*<img class="card-img-top" src="" alt="Preview" />*/ ?>
 		<div class="card-header">
